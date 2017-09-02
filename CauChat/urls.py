@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from CauChat.views import key_list, get_reply
+from CauChat.views import key_list, get_reply, add_reply
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^key/', key_list),
     url(r'^reply/', get_reply),
+    url(r'^addreply/', add_reply)
 
 ]

@@ -1,4 +1,3 @@
-
 from django.db import models
 
 
@@ -15,10 +14,3 @@ class Chat(models.Model):
 class Reply(models.Model):
     key = models.ForeignKey(Key)
     content = models.TextField()
-    request = models.IntegerField()
-
-
-class Log(models.Model):
-    chat = models.ForeignKey(Chat)
-    best_key = models.ForeignKey(Key)
-    created_at = models.DateTimeField(auto_now_add=True)

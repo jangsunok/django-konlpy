@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from CauChat.models import Chat, Key
+from CauChat.models import Chat, Key, Reply
 
 
 class KeySerializer(serializers.Serializer):
@@ -26,6 +26,23 @@ class ChatSerializer(serializers.Serializer):
         return Chat.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
+        instance.content = validated_data.get('content', instance.content)
+        instance.save()
+        return instance
+
+
+class ReplySerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    key = serializers.PrimaryKeyRelatedField(queryset=Key.objects.all())
+    content = serializers.CharField()
+
+    def create(self, validated_data):
+        key_data = validated_data.pop('key')
+        key = Key.objects.get(pk=key_data)
+        return Reply.objects.create(key=key, **validated_data)
+
+    def update(self, instance, validated_data):
+        # instance.key = validated_data.get('key', instance.key)
         instance.content = validated_data.get('content', instance.content)
         instance.save()
         return instance
